@@ -15,35 +15,44 @@ public class PCA9536_R21
 	{
 		// Create I2C bus
 		I2CBus Bus = I2CFactory.getInstance(I2CBus.BUS_1);
-		// Get I2C device, PCA9536_R21 I2C address is 0x41(65)
+		// Get I2C device, PCA9536_R11 I2C address is 0x41(65)
 		I2CDevice device = Bus.getDevice(0x41);
 
 		// Select configuration register
 		// Set all pins as OUTPUT
 		device.write(0x03, (byte)0x00);
-		// Select output port register
-		// Set Pin-1, PIN-2 HIGH
-		device.write(0x01, (byte)0x03);
-		Thread.sleep(100);
+		Thread.sleep(500);
 
-		// Read 1 byte of data from address 0x01(01)
-		// Output
-		byte output = (byte)device.read(0x01);
-		if((output & 0x01)
-		{
-			System.out.printf("Pin-1 : HIGH");
-		}
-		else
-		{
-			System.out.printf("Pin-1 : LOW");
-		}
-		if((output & 0x02)
-		{
-			System.out.printf("Pin-2 : HIGH");
-		}
-		else
-		{
-			System.out.printf("Pin-2 : LOW");
-		}
+		// Select output port register
+		// Set pin-1 as HIGH
+		device.write(0x01, (byte)0x01);
+		Thread.sleep(1000);
+		
+		// Output data to screen
+		System.out.printf("Pin-1 state is : HIGH %n");
+		
+		// Select output port register
+		// Set pin-1 as LOW
+		device.write(0x01, (byte)0x00);
+		Thread.sleep(1000);
+		
+		// Output data to screen
+		System.out.printf("Pin-1 state is : LOW %n");
+		
+		// Select output port register
+		// Set pin-2 as HIGH
+		device.write(0x01, (byte)0x02);
+		Thread.sleep(1000);
+		
+		// Output data to screen
+		System.out.printf("Pin-2 state is : HIGH %n");
+		
+		// Select output port register
+		// Set pin-2 as LOW
+		device.write(0x01, (byte)0x00);
+		Thread.sleep(1000);
+		
+		// Output data to screen
+		System.out.printf("Pin-2 state is : LOW %n");
 	}
 }
