@@ -14,23 +14,40 @@ bus = smbus.SMBus(1)
 # Select configuration register, 0x03(03)
 #		0x00(00)	Set all pins as OUTPUT
 bus.write_byte_data(0x41, 0x03, 0x00)
-# PCA9536_R21 address, 0x41(65)
-# Select output port register, 0x01(01)
-#		0x03(03)	Set both Pins HIGH
-bus.write_byte_data(0x41, 0x01, 0x03)
-
 time.sleep(0.5)
 
 # PCA9536_R21 address, 0x41(65)
-# Read data back from 0x01(01)
-data = bus.read_byte_data(0x41, 0x01)
+# Select output port register, 0x01(01)
+#		0x01(01)	Set Pin-1 HIGH
+bus.write_byte_data(0x41, 0x01, 0x01)
+time.sleep(1);
 
 # Output to screen
-if (data & 0x01) :
-	print "Pin 1 : HIGH"
-else :
-	print "Pin 1 : LOW"
-if (data & 0x02) :
-	print "Pin 2 : HIGH"
-else :
-	print "Pin 2 : LOW"
+print "Pin-1 state is : HIGH"
+
+# PCA9536_R21 address, 0x41(65)
+# Select output port register, 0x01(01)
+#		0x00(00)	Set Pin-1 LOW
+bus.write_byte_data(0x41, 0x01, 0x00)
+time.sleep(1);
+
+# Output to screen
+print "Pin-1 state is : LOW"
+
+# PCA9536_R21 address, 0x41(65)
+# Select output port register, 0x01(01)
+#		0x02(02)	Set Pin-2 HIGH
+bus.write_byte_data(0x41, 0x01, 0x02)
+time.sleep(1);
+
+# Output to screen
+print "Pin-2 state is : HIGH"
+
+# PCA9536_R21 address, 0x41(65)
+# Select output port register, 0x01(01)
+#		0x00(00)	Set Pin-2 LOW
+bus.write_byte_data(0x41, 0x01, 0x00)
+time.sleep(1);
+
+# Output to screen
+print "Pin-2 state is : LOW"
