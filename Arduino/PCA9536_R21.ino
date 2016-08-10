@@ -15,7 +15,7 @@ void setup()
   Wire.begin();
   // Initialise Serial Communication, set baud rate = 9600
   Serial.begin(9600);
-
+  
   // Start I2C transmission
   Wire.beginTransmission(Addr);
   // Select configuration register
@@ -24,54 +24,60 @@ void setup()
   Wire.write(0x00);
   // Stop I2C transmission
   Wire.endTransmission();
-
-  // Start I2C transmission
-  Wire.beginTransmission(Addr);
-  // Select output port register
-  Wire.write(0x03);
-  // Set both Pins HIGH
-  Wire.write(0x03);
-  // Stop I2C transmission
-  Wire.endTransmission();
   delay(300);
 }
 
 void loop()
 {
-  unsigned int output1, output2;
-
   // Start I2C transmission
   Wire.beginTransmission(Addr);
-  // Select data register
+  // Select output port register
+  Wire.write(0x01);
+  // Set pin-1 as HIGH
   Wire.write(0x01);
   // Stop I2C transmission
   Wire.endTransmission();
-
-  // Request 1 byte of data
-  Wire.requestFrom(Addr, 1);
-
-  // Read 1 byte of data
-  if (Wire.available() == 1)
-  {
-    output = Wire.read();
-  }
-
-  if ((output & 0x01))
-  {
-    Serial.println("Pin-1 : HIGH");
-  }
-  else
-  {
-    Serial.println("Pin-1 : LOW");
-  }
-
-  if ((output & 0x02))
-  {
-    Serial.println("Pin-2 : HIGH");
-  }
-  else
-  {
-    Serial.println("Pin-2 : LOW");
-  }
+  delay(1000);
+  
+  // Output data to serial monitor
+  Serial.println("Pin-1 state is : HIGH");
+   
+  Wire.beginTransmission(Addr);
+  // Select output port register
+  Wire.write(0x01);
+  // Set pin-1 as LOW
+  Wire.write(0x00);
+  // Stop I2C transmission
+  Wire.endTransmission();
+  delay(1000);
+  
+  // Output data to serial monitor
+  Serial.println("Pin-1 state is : LOW");
+  delay(500);
+  
+  // Start I2C transmission
+  Wire.beginTransmission(Addr);
+  // Select output port register
+  Wire.write(0x01);
+  // Set pin-2 as HIGH
+  Wire.write(0x02);
+  // Stop I2C transmission
+  Wire.endTransmission();
+  delay(1000);
+  
+  // Output data to serial monitor
+  Serial.println("Pin-2 state is : HIGH");
+   
+  Wire.beginTransmission(Addr);
+  // Select output port register
+  Wire.write(0x01);
+  // Set pin-2 as LOW
+  Wire.write(0x00);
+  // Stop I2C transmission
+  Wire.endTransmission();
+  delay(1000);
+  
+  // Output data to serial monitor
+  Serial.println("Pin-2 state is : LOW");
   delay(500);
 }
