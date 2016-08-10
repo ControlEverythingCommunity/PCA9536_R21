@@ -10,12 +10,11 @@
 // PCA9536_R21 I2C address is 0x41(65)
 #define Addr 0x41
 
-unsigned int output1, output2;
 void setup()
 {
   // Set variable
   Particle.variable("i2cdevice", "PCA9536_R21");
-
+  
   // Initialise I2C communication
   Wire.begin();
   // Initialise Serial Communication, set baud rate = 9600
@@ -29,15 +28,6 @@ void setup()
   Wire.write(0x00);
   // Stop I2C transmission
   Wire.endTransmission();
-
-  // Start I2C transmission
-  Wire.beginTransmission(Addr);
-  // Select output port register
-  Wire.write(0x01);
-  // Set both Pins HIGH
-  Wire.write(0x03);
-  // Stop I2C transmission
-  Wire.endTransmission();
   delay(300);
 }
 
@@ -45,37 +35,53 @@ void loop()
 {
   // Start I2C transmission
   Wire.beginTransmission(Addr);
-  // Select data register
+  // Select output port register
+  Wire.write(0x01);
+  // Set pin-1 as HIGH
   Wire.write(0x01);
   // Stop I2C transmission
   Wire.endTransmission();
-
-  // Request 1 byte of data
-  Wire.requestFrom(Addr, 1);
-
-  // Read 1 byte of data from
-  if (Wire.available() == 1)
-  {
-    output = Wire.read();
-  }
-
-  if ((output & 0x01))
-  {
-    Particle.publish("Pin-1 : ", "HIGH");
-  }
-  else
-  {
-    Particle.publish("Pin-1 : ", "LOW");
-  }
-
-  if ((output & 0x02))
-  {
-    Particle.publish("Pin-2 : ", "HIGH");
-  }
-  else
-  {
-    Particle.publish("Pin-2 : ", "LOW");
-  }
+  delay(1000);
+  
+  // Output data to dashboard
+  Particle.publish("Pin-1 state is : ", "HIGH");
+  
+  Wire.beginTransmission(Addr);
+  // Select output port register
+  Wire.write(0x01);
+  // Set pin-1 as LOW
+  Wire.write(0x00);
+  // Stop I2C transmission
+  Wire.endTransmission();
+  delay(1000);
+  
+  // Output data to dashboard
+  Particle.publish("Pin-1 state is : ", "LOW");
+  delay(500);
+  
+  // Start I2C transmission
+  Wire.beginTransmission(Addr);
+  // Select output port register
+  Wire.write(0x01);
+  // Set pin-2 as HIGH
+  Wire.write(0x02);
+  // Stop I2C transmission
+  Wire.endTransmission();
+  delay(1000);
+  
+  // Output data to dashboard
+  Particle.publish("Pin-2 state is : ", "HIGH");
+  
+  Wire.beginTransmission(Addr);
+  // Select output port register
+  Wire.write(0x01);
+  // Set pin-2 as LOW
+  Wire.write(0x00);
+  // Stop I2C transmission
+  Wire.endTransmission();
+  delay(1000);
+  
+  // Output data to dashboard
+  Particle.publish("Pin-1 state is : ", "LOW");
   delay(500);
 }
-
