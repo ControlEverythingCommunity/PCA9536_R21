@@ -93,7 +93,7 @@ opkg install python-light pyOnionI2C
 Download (or git pull) the code in Onion Omega. Run the program.
 
 ```cpp
-$> python CPS120.py
+$> python PCA9536_R21.py
 ```
 
 #####The code turns ON both relays at once.
