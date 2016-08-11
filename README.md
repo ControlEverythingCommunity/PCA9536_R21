@@ -96,4 +96,4 @@ Download (or git pull) the code in Onion Omega. Run the program.
 $> python PCA9536_R21.py
 ```
 
-#####The code turns ON both relays at once.
+#####The code turns ON/OFF relays one by one.
